@@ -29,6 +29,18 @@ Twilio to the correct handlers.
    (leave the default POST method selected) and point the SMS URL to
    `http://yourserver/Text-to-Vote/handle_incoming_sms.php`
 
+Local Usage
+===========
+
+Assuming PHP is installed locally and you're running on a mac, the following command should work for you to run the system locally:
+`php -S localhost:9001`
+
+You can then view the voting results by visiting localhost:9001
+
+You run the following command in a separate terminal window to create an ngrok tunnel so that you have a public URL
+available that you can use within Twilio to receive real webhooks:
+`./ngrok http localhost:9001`
+
 License
 =======
 
