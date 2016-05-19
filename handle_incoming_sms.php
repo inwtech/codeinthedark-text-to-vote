@@ -12,9 +12,8 @@
 		$db = new DB();
 
 		$response = $db->save_vote($phone_number, $team_number);
-	}
-	else {
-		$response = 'Sorry, I didn\'t understand that. Text the team number to vote. For example, texting 1 will vote for Team 1.';
+	} else {
+		$response = 'Sorry, I didn\'t understand that. Text the seat number to vote. For example, texting 1 will vote for Seat 1.';
 	}
 
 	echo '<Sms>'.$response.'</Sms>';

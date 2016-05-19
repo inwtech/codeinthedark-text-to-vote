@@ -1,17 +1,17 @@
 <?php
-	define('POLL_NAME', 'Sample Poll');
+	define('POLL_NAME', 'Code in the Dark - Heat 1, Round 1');
 
 	// Replace with your Twilio number
-	define('PHONE_NUMBER', '(123) 456-7890');
+	define('PHONE_NUMBER', '(509) 204-1628');
 
 	// Change 'Team 1', 'Team 2', etc. to the names of the teams.
-	$teams[] = 'Team 1';
-	$teams[] = 'Team 2';
-	$teams[] = 'Team 3';
+	$teams[] = 'Seat 1';
+	$teams[] = 'Seat 2';
+	$teams[] = 'Seat 3';
+	$teams[] = 'Seat 4';
+	$teams[] = 'Seat 5';
+	$teams[] = 'Seat 6';
+	$teams[] = 'Seat 7';
+	$teams[] = 'Seat 8';
 
-	// Full URL to the location of the team's logo. These should be 64x64 and
-	// correspond the order of the teams above.
-	$logos[] = 'http://www.yoursite.net/kitty64.png';
-	$logos[] = 'http://www.yoursite.net/kitty64.png';
-	$logos[] = 'http://www.yoursite.net/kitty64.png';
 ?>

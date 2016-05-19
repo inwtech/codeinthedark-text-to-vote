@@ -24,15 +24,13 @@
 	</head>
 	<body>
 		<div id="container">
-			<h1>Text team number to <strong><?php echo PHONE_NUMBER ?></strong></h1>
+			<h1>Text seat number to <strong><?php echo PHONE_NUMBER ?></strong></h1>
 			<div id="results">
 				<script type="text/javascript+protovis">
 					<?php
 						$db = new DB();
 						
 						$teams = $db->get_teams();
-
-						$images = json_encode($logos);
 
 						foreach ($teams as $team)
 						{
@@ -41,8 +39,6 @@
 
 						$data = json_encode($data);
 					?>
-
-					var images = <?php echo $images; ?>;
 
 					var data = <?php echo $data; ?>;
 
@@ -73,7 +69,7 @@
 
 					/* Y-axis label */
 					vis.add(pv.Label)
-						.data(["Team Number"])
+						.data(["Seat Number"])
 						.left(-63)
 						.bottom(h/2)
 						.font("30px Helvetica")
@@ -95,13 +91,6 @@
 						.font("bold 30px Helvetica")
 						.text(function() this.index + 1);
 
-					what.add(pv.Image)
-						.left(-40)
-						.top(function() y(this.index) + ((y.range().band / 2) - (this.height() / 2)))
-						.width(64)
-						.height(64)
-						.url(function() images[this.index]);
-
 					vis.render();
 					getData();
 
@@ -121,7 +110,6 @@
 					setInterval(function() { getData(); }, 2000);
 				</script>
 			</div>
-			<p><img src="./images/twilio_logo.png"></p>
 		</div>
 	</body>
 </html>
