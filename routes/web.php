@@ -48,9 +48,6 @@ Route::get('/get-votes', function() {
 });
 
 Route::get('/superspecialadminsection', function(Request $request) {
-
-
-
     return view('admin');
 });
 

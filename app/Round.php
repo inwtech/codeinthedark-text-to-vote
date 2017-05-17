@@ -23,6 +23,10 @@ class Round extends Model
     {
         $active_round = \App\Round::where('is_current', 1)->first();
 
+        if (empty($active_round)) {
+            return [];
+        }
+
         $votes = DB::table('votes')
             ->select(DB::raw('count(*) as vote_count, vote_casted'))
             ->where('round_id', $active_round->getKey())
