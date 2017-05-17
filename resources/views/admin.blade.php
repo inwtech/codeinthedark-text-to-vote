@@ -21,17 +21,37 @@
 <body>
 <!-- Begin page content -->
 <div class="container">
-    <form method="POST"">
+    <form method="POST">
+        <h2>Current Round Breakdown</h2>
+        {{ json_encode(\App\Round::active_vote_breakdown(true)) }}
+
         <h2>Create new Round</h2>
+
         <div class="form-group">
             <label for="exampleInputEmail1">Number of seats for new round</label>
             <select name="seats" class="form-control">
+                <option value="" selected="selected">--Select One--</option>
                 @for ($i = 2; $i < 15; $i++)
                     <option value="{{ $i }}">{{ $i }} Seats</option>
                 @endfor
             </select>
         </div>
+
         <button type="submit" class="btn btn-info">Create New Round</button>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Active Round:</label>
+            <select name="active_round" class="form-control">
+                <option value="" selected="selected">--Select One--</option>
+                @foreach (\App\Round::all() as $round)
+                    <option value="{{ $round->getKey() }}">Round #{{ $round->getKey() }}; total votes - {{ $round->vote_count() }}; seats: {{ $round->seats }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-info">Update Active Round</button>
+
+        {{ csrf_field() }}
     </form>
 </div>
 

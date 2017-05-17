@@ -1,95 +1,98 @@
-<!doctype html>
-<html lang="{{ config('app.locale') }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 
-        <title>Laravel</title>
+<html lang="en">
+<head>
+    <title>Code in the Dark</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/protovis-r3.3.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="/css/main.css" media="screen">
+</head>
+<body>
+<div id="container">
+    <h1>Text seat number to <strong>{{ config('app.phone_number') }}</strong></h1>
+    <div id="results">
+        <script type="text/javascript+protovis">
+            var data = {!! $data !!};
+
+            /* Protovis wizardy by Will Light (http://williamlight.net) */
+
+            /* Sizing and scales. */
+            var w = 700,
+                h = 400,
+                x = pv.Scale.linear(0, (pv.max(data) == 0 ? 1 : pv.max(data))).range(0, w),
+                y = pv.Scale.ordinal(pv.range(data.length)).splitBanded(0, h, 4/5);
+
+            /* The root panel. */
+            var vis = new pv.Panel()
+                .width(w)
+                .height(h)
+                .bottom(20)
+                .left(90)
+                .right(40)
+                .top(5);
+
+            /* The bars. */
+            var bar = vis.add(pv.Bar)
+                .data(function() data)
+                .top(function() y(this.index))
+                .height(y.range().band)
+                .left(60)
+                .width(x);
+
+            /* Y-axis label */
+            vis.add(pv.Label)
+                .data(["Seat Number"])
+                .left(-63)
+                .bottom(h/2)
+                .font("30px Helvetica")
+                .textAlign("center")
+                .textAngle(-Math.PI/2);
+
+            /* The variable label. */
+            var what = bar.anchor("left")
+                .add(pv.Bar)
+                .width(function() this.root.left())
+                .height(y.range().band)
+                .top(function() y(this.index))
+                .fillStyle("rgba(0, 0, 0, 0)");
+
+            bar.anchor("left").add(pv.Label)
+                .textMargin(5)
+                .left(55)
+                .textAlign("right")
+                .font("bold 30px Helvetica")
+                .text(function() this.index + 1);
+
+            vis.render();
+            getData();
+
+            function getData() {
+                $.getJSON ("/get-votes", function (d) {
+                    if (data.length != d.length) {
+                        window.location = window.location;
+
+                        return;
+                    }
+
+                    data = d;
+                    x = pv.Scale.linear(0, (pv.max(data) == 0 ? 1 : pv.max(data))).range(0, w);
+                    bar.width(x);
+
+                    vis.transition()
+                        .duration(500)
+                        .ease("elastic-out")
+                        .start();
+                });
             }
 
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @if (Auth::check())
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ url('/login') }}">Login</a>
-                        <a href="{{ url('/register') }}">Register</a>
-                    @endif
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
+            setInterval(function() { getData(); }, 2000);
+        </script>
+    </div>
+</div>
+</body>
 </html>

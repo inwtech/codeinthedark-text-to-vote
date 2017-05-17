@@ -14,6 +14,12 @@ class CreateRounds extends Migration
     public function up()
     {
         //
+        Schema::create('rounds', function (Blueprint $table) {
+            $table->increments('id');
+            $table->boolean('is_current');
+            $table->boolean('seats');
+            $table->timestamps();
+        });
     }
 
     /**

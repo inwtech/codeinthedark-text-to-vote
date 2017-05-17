@@ -14,6 +14,13 @@ class CreateVotes extends Migration
     public function up()
     {
         //
+        Schema::create('votes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('phone_number');
+            $table->string('vote_casted');
+            $table->integer('round_id');
+            $table->timestamps();
+        });
     }
 
     /**
