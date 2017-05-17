@@ -41,7 +41,7 @@ class Round extends Model
         }
 
         $votes = [];
-        for ($i = 1; $i < $active_round->seats; $i++) {
+        for ($i = 1; $i <= $active_round->seats; $i++) {
             $votes[($seat_number_index) ? 'seat-'.$i : $i-1] = isset($data[$i]) ? $data[$i] : 0;
         }
 

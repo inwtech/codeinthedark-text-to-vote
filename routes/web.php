@@ -29,8 +29,6 @@ Route::post('/save-vote', function() {
     $team_number = (int) $_REQUEST['Body'];
 
     if ((strlen($phone_number) >= 10) && ($team_number > 0) ) {
-//        $db = new DB();
-//
         $response = \App\Vote::save_vote($phone_number, $team_number);
     } else {
         $response = 'Sorry, I didn\'t understand that. Text the seat number to vote. For example, texting 1 will cast a vote for Seat 1.';
